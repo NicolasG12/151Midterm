@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private bool isMainBall = false;
-    [SerializeField] private float minY = 0f;
+    [SerializeField] private float minMouseY = 0f;
+    [SerializeField] private float destroyY = 0f;
 
     private Rigidbody2D rb;
 
@@ -26,13 +27,20 @@ public class PlayerControl : MonoBehaviour
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePos;
-            if (transform.position.y < minY)
+            if (transform.position.y < minMouseY)
             {
-                transform.position = new Vector2(transform.position.x, minY);
+                transform.position = new Vector2(transform.position.x, minMouseY);
             }
             if (Input.GetMouseButtonDown(0))
             {
                 SpawnBall();
+            }
+        }
+        else
+        {
+            if (transform.position.y < destroyY)
+            {
+                Destroy(gameObject);
             }
         }
     }
