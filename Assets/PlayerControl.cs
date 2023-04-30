@@ -51,4 +51,17 @@ public class PlayerControl : MonoBehaviour
         ball.GetComponent<PlayerControl>().isMainBall = false;
         ball.GetComponent<Rigidbody2D>().gravityScale = 5;
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Peg"))
+        {
+            // Get the OSC Handler
+            GameObject oscHandler = GameObject.Find("@OSCHandler");
+            // Get the OSC script
+            OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
+            // Send the OSC message
+            osc.SendMessageToClient("PureData", "/unity/trigger", 1);
+        }
+    }
 }
