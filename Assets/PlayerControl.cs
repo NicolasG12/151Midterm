@@ -10,6 +10,8 @@ public class PlayerControl : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private GameObject OSCHandler;
+    private OSCHandler osc;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,8 @@ public class PlayerControl : MonoBehaviour
         {
             sr.color = Color.HSVToRGB(Random.Range(0f, 1f), 1f, 1f);
         }
+        OSCHandler = GameObject.Find("@OSCHandler");
+        osc = OSCHandler.GetComponent<OSCHandler>();
     }
 
     // Update is called once per frame
@@ -53,6 +57,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (transform.position.y < destroyY)
             {
+                osc.SendMessageToClient("PureData", "/unity/bucket", 50);
                 Destroy(gameObject);
             }
         }
@@ -72,10 +77,10 @@ public class PlayerControl : MonoBehaviour
         {
             float pegX = collision.gameObject.transform.position.x;
             float pegY = collision.gameObject.transform.position.y;
-            // Get the OSC Handler
-            GameObject oscHandler = GameObject.Find("@OSCHandler");
-            // Get the OSC script
-            OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
+            // // Get the OSC Handler
+            // GameObject oscHandler = GameObject.Find("@OSCHandler");
+            // // Get the OSC script
+            // OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
             // Send the OSC message
             osc.SendMessageToClient("PureData", "/unity/peg", new List<float> { pegX, pegY });
 
@@ -87,8 +92,8 @@ public class PlayerControl : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Bucket"))
         {
-            GameObject oscHandler = GameObject.Find("@OSCHandler");
-            OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
+            // GameObject oscHandler = GameObject.Find("@OSCHandler");
+            // OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
             int score = collision.gameObject.GetComponent<Buckets>().score;
             osc.SendMessageToClient("PureData", "/unity/bucket", score);
             Destroy(gameObject);
