@@ -85,5 +85,13 @@ public class PlayerControl : MonoBehaviour
             Color.RGBToHSV(ballColor, out float ballH, out float ballS, out float ballV);
             pegSR.color = Color.HSVToRGB(ballH, ballS, 0.85f * ballV);
         }
+        if (collision.gameObject.CompareTag("Bucket"))
+        {
+            GameObject oscHandler = GameObject.Find("@OSCHandler");
+            OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
+            int score = collision.gameObject.GetComponent<Buckets>().score;
+            osc.SendMessageToClient("PureData", "/unity/bucket", score);
+            Destroy(gameObject);
+        }
     }
 }

@@ -7,7 +7,7 @@ public class Buckets : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private TextMeshProUGUI totalScore;
-    [SerializeField] private int score = 0;
+    [SerializeField] public int score = 0;
 
     // Start is called before the first frame update
     void Start()
