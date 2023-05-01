@@ -18,10 +18,10 @@ public class Buckets : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
         totalScore.GetComponent<Score>().score += score;
     }
