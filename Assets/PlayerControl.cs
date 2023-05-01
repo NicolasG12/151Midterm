@@ -9,14 +9,20 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float destroyY = 0f;
 
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         if (isMainBall)
         {
             rb.gravityScale = 0;
+        }
+        else
+        {
+            sr.color = Color.HSVToRGB(Random.Range(0f, 1f), 1f, 1f);
         }
     }
 
@@ -72,6 +78,12 @@ public class PlayerControl : MonoBehaviour
             OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
             // Send the OSC message
             osc.SendMessageToClient("PureData", "/unity/peg", new List<float> { pegX, pegY });
+
+            // Get the peg's sprite renderer
+            SpriteRenderer pegSR = collision.gameObject.GetComponent<SpriteRenderer>();
+            Color ballColor = sr.color;
+            Color.RGBToHSV(ballColor, out float ballH, out float ballS, out float ballV);
+            pegSR.color = Color.HSVToRGB(ballH, ballS, 0.85f * ballV);
         }
     }
 }
