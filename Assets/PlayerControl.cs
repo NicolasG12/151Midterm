@@ -56,12 +56,14 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Peg"))
         {
+            float pegX = collision.gameObject.transform.position.x;
+            float pegY = collision.gameObject.transform.position.y;
             // Get the OSC Handler
             GameObject oscHandler = GameObject.Find("@OSCHandler");
             // Get the OSC script
             OSCHandler osc = oscHandler.GetComponent<OSCHandler>();
             // Send the OSC message
-            osc.SendMessageToClient("PureData", "/unity/trigger", 1);
+            osc.SendMessageToClient("PureData", "/unity/peg", new List<float> { pegX, pegY });
         }
     }
 }
