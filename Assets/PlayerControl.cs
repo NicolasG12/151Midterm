@@ -33,7 +33,14 @@ public class PlayerControl : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                SpawnBall();
+                // Get the number of balls
+                GameObject[] balls = GameObject.FindGameObjectsWithTag("Ball");
+                int numBalls = balls.Length;
+                if (numBalls == 0)
+                {
+                    SpawnBall();
+                }
+
             }
         }
         else
@@ -50,6 +57,7 @@ public class PlayerControl : MonoBehaviour
         GameObject ball = Instantiate(gameObject, transform.position, transform.rotation);
         ball.GetComponent<PlayerControl>().isMainBall = false;
         ball.GetComponent<Rigidbody2D>().gravityScale = 5;
+        ball.tag = "Ball";
     }
 
     void OnCollisionEnter2D(Collision2D collision)
