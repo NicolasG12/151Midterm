@@ -16,18 +16,28 @@ public class PlayerControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        OSCHandler = GameObject.Find("@OSCHandler");
+        osc = OSCHandler.GetComponent<OSCHandler>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         if (isMainBall)
         {
             rb.gravityScale = 0;
+            osc.SendMessageToClient("PureData", "/unity/bgm", 1);
         }
         else
         {
             sr.color = Color.HSVToRGB(Random.Range(0f, 1f), 1f, 1f);
         }
-        OSCHandler = GameObject.Find("@OSCHandler");
-        osc = OSCHandler.GetComponent<OSCHandler>();
+
+    }
+
+    void OnApplicationQuit()
+    {
+        if (isMainBall)
+        {
+            osc.SendMessageToClient("PureData", "/unity/bgm", 0);
+        }
     }
 
     // Update is called once per frame
